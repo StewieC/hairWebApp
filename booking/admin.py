@@ -1,3 +1,5 @@
-from django.contrib import admin
+# from django.contrib import admin
+# from .models import Hairdresser, Booking
 
-# Register your models here.
+# admin.site.register(Hairdresser)
+# admin.site.register(Booking)
