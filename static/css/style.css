@@ -74,3 +74,27 @@ footer { text-align: center; padding: 30px; color: white; opacity: 0.8; font-siz
     background: #eee; color: #333; padding: 14px 30px; border-radius: 10px; text-decoration: none;
 }
 .btn-secondary:hover { background: #ddd; }
+
+/* Tips Page */
+.page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; flex-wrap: wrap; gap: 15px; }
+.page-header h1 { color: white; }
+
+.tip-card {
+    background: white; padding: 25px; border-radius: 15px; margin-bottom: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1); transition: transform 0.3s;
+}
+.tip-card:hover { transform: translateY(-5px); }
+.tip-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.hair-type { background: #667eea; color: white; padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; }
+.tip-content { line-height: 1.7; margin: 15px 0; }
+.tip-footer { display: flex; justify-content: space-between; color: #888; font-size: 0.9rem; }
+.likes { color: #e91e63; font-weight: bold; }
+
+/* Add Tip Form */
+.form-card {
+    background: white; padding: 40px; border-radius: 20px; max-width: 700px; margin: 0 auto;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+.form-card input, .form-card textarea, .form-card select {
+    width: 100%; padding: 14px; margin: 12px 0; border: 2px solid #ddd; border-radius: 10px; font-size: 1rem;
+}

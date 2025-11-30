@@ -1,0 +1,27 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Share a Tip{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="form-card">
+        <h1>Share Your Hair Tip</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <input type="text" name="title" placeholder="Tip title..." required>
+            <textarea name="content" rows="6" placeholder="Write your tip here..." required></textarea>
+            <label for="hair_type">Hair Type:</label>
+            <select id="hair_type" name="hair_type">
+                <option value="">All hair types</option>
+                <option value="straight">Straight</option>
+                <option value="wavy">Wavy</option>
+                <option value="curly">Curly</option>
+                <option value="coily">Coily</option>
+            </select>
+            <input type="text" name="author_name" placeholder="Your name (optional)">
+            <button type="submit" class="btn-primary">Post Tip</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
