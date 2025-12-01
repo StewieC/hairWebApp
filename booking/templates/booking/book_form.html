@@ -1,0 +1,25 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Book {{ stylist.name }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="form-card">
+        <h1>Book Appointment with {{ stylist.name }}</h1>
+        <p>Location: {{ stylist.location }} • Rating: {{ stylist.rating }} ★</p>
+
+        <form method="POST">
+            {% csrf_token %}
+            <input type="text" name="client_name" placeholder="Your Name" required>
+            <input type="text" name="client_phone" placeholder="Your Phone Number" required>
+            <input type="text" name="service" placeholder="Service (e.g. Braids, Relaxer)" required>
+            <label for="date">Date</label>
+            <input id="date" type="date" name="date" title="Select appointment date" placeholder="YYYY-MM-DD" required>
+            <input type="time" name="time" placeholder="Appointment Time" required>
+            <textarea name="notes" placeholder="Any special requests? (optional)" rows="4"></textarea>
+            <button type="submit" class="btn-primary">Confirm Booking</button>
+        </form>
+        <a href="{% url 'stylist_list %}" class="btn-secondary">← Back to List</a>
+    </div>
+</div>
+{% endblock %}

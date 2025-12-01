@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}HairCare Community{% endblock %}</title>
-    <link rel="stylesheet" href="{% load static %}{% static 'css/style.css' %}">
-    {% block extra_css %}{% endblock %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">    {% block extra_css %}{% endblock %}
 </head>
 <body>
     <!-- Navigation Bar -->

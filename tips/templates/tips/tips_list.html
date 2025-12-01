@@ -1,0 +1,23 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Community Tips{% endblock %}
+
+{% block content %}
+<div style="padding:40px; background:white; min-height:80vh; border-radius:20px; margin:20px;">
+    <h1 style="color:#667eea; text-align:center;">Community Tips</h1>
+    <p style="text-align:center;">
+        <a href="/tips/add/" style="background:#667eea; color:white; padding:12px 30px; border-radius:50px; text-decoration:none;">Share Your Tip</a>
+    </p>
+    <hr>
+    {% for tip in tips %}
+        <div style="background:#f9f9f9; padding:20px; margin:20px 0; border-radius:15px; border-left:5px solid #667eea;">
+            <h3>{{ tip.title }}</h3>
+            <p>{{ tip.content }}</p>
+            <small style="color:#888;">— {{ tip.author_name|default:"Anonymous" }} • {{ tip.created_at|date:"M d, Y" }}</small>
+        </div>
+    {% empty %}
+        <p style="text-align:center; color:#888; font-size:1.2em;">No tips yet. Be the first to share!</p>
+    {% endfor %}
+</div>
+{% endblock %}
