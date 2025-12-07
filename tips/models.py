@@ -1,6 +1,6 @@
 # tips/models.py
 from django.db import models
-from core.models import QuizResponse  # optional link later
+# from core.models import QuizResponse  # optional link later
 
 class Tip(models.Model):
     HAIR_TYPES = [

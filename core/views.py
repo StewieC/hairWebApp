@@ -1,7 +1,7 @@
 # core/views.py
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
-from .models import QuizResponse
+# from .models import QuizResponse
 
 class HomeView(TemplateView):
     template_name = 'core/home.html'
