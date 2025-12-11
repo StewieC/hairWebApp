@@ -1,63 +1,183 @@
 {% extends 'core/base.html' %}
 {% load static %}
 
-{% block title %}Home - Discover Your Hair Type{% endblock %}
+{% block title %}Hair Diagnosis Quiz – Get Your Perfect Routine{% endblock %}
 
 {% block content %}
 <div class="container">
-    <header class="hero">
-        <h1>Find Your Perfect Hair Routine</h1>
-        <p>Answer 4 quick questions → Get personalized tips instantly</p>
-    </header>
+    <!-- Hero Section with AI Call-to-Action -->
+    <div class="hero-section">
+        <div class="hero-content">
+            <h1>Discover Your Perfect Hair Routine</h1>
+            <p class="hero-subtitle">
+                Take our 2-minute professional quiz — or just <strong>chat with our AI hair expert</strong> right now!
+            </p>
 
-    <div class="quiz-card">
-        <form action="{% url 'quiz_submit' %}" method="POST" class="quiz-form">
+            <div class="hero-actions">
+                <a href="#quiz" class="btn-primary hero-btn">
+                    Take the Full Quiz
+                </a>
+                <a href="{% url 'ai_hair_chat' %}" class="btn-ai hero-btn">
+                    Chat with AI Expert
+                </a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <div class="ai-badge">Powered by Grok AI</div>
+        </div>
+    </div>
+
+    <!-- Full Quiz (same as before, just with ID for scrolling) -->
+    <div id="quiz" class="quiz-container">
+        <div class="quiz-header">
+            <h2>Professional Hair Diagnosis Quiz</h2>
+            <p>Answer honestly — the more accurate you are, the better your routine will be!</p>
+        </div>
+
+        <form method="POST" action="{% url 'quiz_submit' %}" class="professional-quiz">
             {% csrf_token %}
 
-            <div class="question">
-                <label>1. What's your hair type?</label>
-                <select name="hair_type" required title="Select your hair type">
-                    <option value="">Choose...</option>
-                    <option value="straight">Straight</option>
-                    <option value="wavy">Wavy</option>
-                    <option value="curly">Curly</option>
-                    <option value="coily">Coily</option>
-                </select>
-            </div>
-
-            <div class="question">
-                <label>2. How does your scalp feel?</label>
-                <select name="scalp_type" required title="Select your scalp type">
-                    <option value="">Choose...</option>
-                    <option value="dry">Dry / Itchy</option>
-                    <option value="oily">Oily / Greasy</option>
-                    <option value="normal">Normal</option>
-                    <option value="combination">Combination</option>
-                </select>
-            </div>
-
-            <div class="question">
-                <label>3. Main concerns? (select all that apply)</label>
-                <div class="checkbox-group">
-                    <label><input type="checkbox" name="concerns" value="frizz"> Frizz</label>
-                    <label><input type="checkbox" name="concerns" value="breakage"> Breakage</label>
-                    <label><input type="checkbox" name="concerns" value="dryness"> Dryness</label>
-                    <label><input type="checkbox" name="concerns" value="volume"> Lack of Volume</label>
-                    <label><input type="checkbox" name="concerns" value="dandruff"> Dandruff</label>
+            <!-- 1. BASIC HAIR CHARACTERISTICS -->
+            <section class="quiz-section">
+                <h3>1. Basic Hair Characteristics</h3>
+                
+                <div class="question">
+                    <label>How thick is a single strand?</label>
+                    <select name="strand_thickness" required>
+                        <option value="">Select...</option>
+                        <option value="fine">Fine (barely feel it)</option>
+                        <option value="medium">Medium (average)</option>
+                        <option value="coarse">Coarse (thick)</option>
+                    </select>
                 </div>
-            </div>
 
-            <div class="question">
-                <label for="porosity">4. Hair porosity (optional)</label>
-                <select id="porosity" name="porosity" title="Select your hair porosity">
-                    <option value="">I don't know</option>
-                    <option value="low">Low</option>
-                    <option value="medium">Medium</option>
-                    <option value="high">High</option>
-                </select>
-            </div>
+                <div class="question">
+                    <label>Curl pattern?</label>
+                    <select name="curl_pattern" required>
+                        <option value="">Select...</option>
+                        <option value="straight">Straight (Type 1)</option>
+                        <option value="wavy">Wavy (Type 2)</option>
+                        <option value="curly">Curly (Type 3)</option>
+                        <option value="coily">Coily/Kinky (Type 4)</option>
+                    </select>
+                </div>
 
-            <button type="submit" class="btn-primary">Get My Routine</button>
+                <div class="question">
+                    <label>Hair density?</label>
+                    <select name="density" required>
+                        <option value="">Select...</option>
+                        <option value="low">Low — scalp visible</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High — scalp hidden</option>
+                    </select>
+                </div>
+
+                <div class="question">
+                    <label>Porosity?</label>
+                    <select name="porosity" required>
+                        <option value="">Select...</option>
+                        <option value="low">Low — water beads</option>
+                        <option value="normal">Normal</option>
+                        <option value="high">High — soaks fast</option>
+                    </select>
+                </div>
+
+                <div class="question">
+                    <label>Elasticity (wet strand wet)?</label>
+                    <select name="elasticity" required>
+                        <option value="">Select...</option>
+                        <option value="good">Good — bounces back</option>
+                        <option value="poor">Poor — breaks</option>
+                        <option value="none">None — no stretch</option>
+                    </select>
+                </div>
+            </section>
+
+            <!-- 2. SCALP CONDITION -->
+            <section class="quiz-section">
+                <h3>2. Scalp Condition</h3>
+                <div class="question">
+                    <label>How does your scalp feel?</label>
+                    <select name="scalp_type" required>
+                        <option value="">Select...</option>
+                        <option value="oily">Oily</option>
+                        <option value="dry">Dry / itchy</option>
+                        <option value="normal">Normal</option>
+                        <option value="flaky">Flaky / dandruff</option>
+                    </select>
+                </div>
+                <div class="checkbox-group">
+                    <p>Any of these?</p>
+                    <label><input type="checkbox" name="scalp_issues" value="itchiness"> Itchiness</label>
+                    <label><input type="checkbox" name="scalp_issues" value="dandruff"> Dandruff</label>
+                    <label><input type="checkbox" name="scalp_issues" value="tenderness"> Tenderness</label>
+                    <label><input type="checkbox" name="scalp_issues" value="buildup"> Build-up</label>
+                </div>
+            </section>
+
+            <!-- 3. HAIR HISTORY -->
+            <section class="quiz-section">
+                <h3>3. Hair History (Last 12 Months)</h3>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="chemical_treatments" value="relaxer"> Relaxer</label>
+                    <label><input type="checkbox" name="chemical_treatments" value="color"> Color/Bleach</label>
+                    <label><input type="checkbox" name="chemical_treatments" value="heat"> Heat styling</label>
+                    <label><input type="checkbox" name="chemical_treatments" value="breakage"> Breakage</label>
+                </div>
+            </section>
+
+            <!-- 4. CURRENT ROUTINE -->
+            <section class="quiz-section">
+                <h3>4. Current Routine</h3>
+                <div class="question">
+                    <label>Wash frequency?</label>
+                    <select name="wash_frequency" required>
+                        <option value="">Select...</option>
+                        <option value="daily">Daily</option>
+                        <option value="every2-3">Every 2–3 days</option>
+                        <option value="weekly">Weekly</option>
+                        <option value="every10+">Every 10+ days</option>
+                    </select>
+                </div>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="routine_habits" value="deep_condition"> Deep condition</label>
+                    <label><input type="checkbox" name="routine_habits" value="protective_styles"> Protective styles</label>
+                    <label><input type="checkbox" name="routine_habits" value="moisturize_daily"> Moisturize daily</label>
+                </div>
+            </section>
+
+            <!-- 5. LIFESTYLE -->
+            <section class="quiz-section">
+                <h3>5. Lifestyle Factors</h3>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="lifestyle" value="swim"> Swim</label>
+                    <label><input type="checkbox" name="lifestyle" value="workout"> Workout/sweat</label>
+                    <label><input type="checkbox" name="lifestyle" value="dusty"> Dusty environment</label>
+                    <label><input type="checkbox" name="lifestyle" value="humid"> Humid climate</label>
+                    <label><input type="checkbox" name="lifestyle" value="hats"> Hats/helmets</label>
+                </div>
+            </section>
+
+            <!-- 6. GOALS -->
+            <section class="quiz-section">
+                <h3>6. Your Hair Goals</h3>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="goals" value="length"> Length</label>
+                    <label><input type="checkbox" name="goals" value="moisture"> Moisture</label>
+                    <label><input type="checkbox" name="goals" value="strength"> Strength</label>
+                    <label><input type="checkbox" name="goals" value="definition"> Definition</label>
+                    <label><input type="checkbox" name="goals" value="repair"> Repair</label>
+                    <label><input type="checkbox" name="goals" value="volume"> Volume</label>
+                </div>
+            </section>
+
+            <!-- 7. SENSITIVITIES -->
+            <section class="quiz-section">
+                <h3>7. Sensitivities or Conditions</h3>
+                <textarea name="sensitivities" rows="3" placeholder="Allergies, medical issues, pregnancy, etc. (optional)"></textarea>
+            </section>
+
+            <button type="submit" class="btn-primary big-btn">Generate My Routine</button>
         </form>
     </div>
 </div>

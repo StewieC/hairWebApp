@@ -1,0 +1,59 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Ask HairGrok{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="ai-chat-card">
+        <h1>Ask HairGrok Your Hair Questions</h1>
+        <p>Describe your hair or ask about routines/products — get instant expert advice!</p>
+        
+        <form id="chat-form">
+            <textarea id="user-query" placeholder="E.g., 'My hair is curly and frizzy—what shampoo should I use?'" rows="4" required></textarea>
+            <button type="submit" class="btn-primary">Ask HairGrok</button>
+        </form>
+        
+        <div id="ai-response" class="response-box" style="display:none;">
+            <h3>HairGrok's Advice:</h3>
+            <div id="response-text"></div>
+            <button id="new-query" class="btn-secondary" style="display:none;">Ask Another Question</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('chat-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const query = document.getElementById('user-query').value;
+        const responseDiv = document.getElementById('ai-response');
+        const responseText = document.getElementById('response-text');
+        
+        responseText.innerHTML = 'Thinking...';
+        responseDiv.style.display = 'block';
+        
+        try {
+            const res = await fetch('/ai-chat/', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                body: new URLSearchParams({query: query})
+            });
+            const data = await res.json();
+            
+            if (data.response) {
+                responseText.innerHTML = data.response.replace(/\n/g, '<br>');
+                document.getElementById('new-query').style.display = 'inline-block';
+            } else {
+                responseText.innerHTML = data.error || 'Try again.';
+            }
+        } catch (err) {
+            responseText.innerHTML = 'Connection error—check internet.';
+        }
+    });
+
+    document.getElementById('new-query').addEventListener('click', () => {
+        document.getElementById('user-query').value = '';
+        document.getElementById('ai-response').style.display = 'none';
+    });
+</script>
+{% endblock %}
