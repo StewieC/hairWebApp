@@ -3,17 +3,14 @@
 {% block title %}Share a Tip{% endblock %}
 
 {% block content %}
-<div style="padding:40px; background:white; min-height:80vh; border-radius:20px; margin:20px;">
-    <h1 style="color:#667eea; text-align:center;">Share Your Hair Tip</h1>
-    <form method="POST" style="max-width:600px; margin:0 auto;">
+<div class="container add-tip-wrapper">
+    <h1>Share Your Hair Tip</h1>
+    <form method="POST">
         {% csrf_token %}
-        <input type="text" name="title" placeholder="Tip Title" required 
-               style="width:100%; padding:15px; margin:15px 0; border:2px solid #ddd; border-radius:10px; font-size:1.1em;"><br>
-        <textarea name="content" rows="8" placeholder="Write your tip here..." required
-                  style="width:100%; padding:15px; margin:15px 0; border:2px solid #ddd; border-radius:10px; font-size:1.1em;"></textarea><br>
-        <input type="text" name="author_name" placeholder="Your name (optional)"
-               style="width:100%; padding:15px; margin:15px 0; border:2px solid #ddd; border-radius:10px;"><br>
-        <button type="submit" style="background:#667eea; color:white; padding:15px 40px; border:none; border-radius:50px; font-size:1.2em; cursor:pointer;">
+        <input type="text" name="title" placeholder="Tip Title" required>
+        <textarea name="content" rows="8" placeholder="Write your tip here..." required></textarea>
+        <input type="text" name="author_name" placeholder="Your name (optional)">
+        <button type="submit" class="btn btn-primary">
             Post Tip
         </button>
     </form>

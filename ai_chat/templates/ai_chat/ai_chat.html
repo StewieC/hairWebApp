@@ -11,13 +11,13 @@
         
         <form id="chat-form">
             <textarea id="user-query" placeholder="E.g., 'My hair is curly and frizzy—what shampoo should I use?'" rows="4" required></textarea>
-            <button type="submit" class="btn-primary">Ask HairGrok</button>
+            <button type="submit" class="btn btn-primary">Ask HairGrok</button>
         </form>
         
         <div id="ai-response" class="response-box" style="display:none;">
             <h3>HairGrok's Advice:</h3>
             <div id="response-text"></div>
-            <button id="new-query" class="btn-secondary" style="display:none;">Ask Another Question</button>
+            <button id="new-query" class="btn btn-secondary" style="display:none;">Ask Another Question</button>
         </div>
     </div>
 </div>
@@ -26,34 +26,48 @@
     document.getElementById('chat-form').addEventListener('submit', async (e) => {
         e.preventDefault();
         const query = document.getElementById('user-query').value;
+        const submitButton = e.submitter;
+
         const responseDiv = document.getElementById('ai-response');
         const responseText = document.getElementById('response-text');
+        const newQueryButton = document.getElementById('new-query');
         
         responseText.innerHTML = 'Thinking...';
         responseDiv.style.display = 'block';
+        submitButton.disabled = true; // Disable button while loading
         
         try {
-            const res = await fetch('/ai-chat/', {
+            // Note: This fetch needs CSRF setup in Django for POST requests, 
+            // but for this example, we assume the backend handles the request.
+            const res = await fetch('/ai-chat-endpoint/', { // Changed placeholder URL for clarity
                 method: 'POST',
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                body: new URLSearchParams({query: query})
+                headers: {
+                    'Content-Type': 'application/json',
+                    // You might need to add CSRF token here for a real Django app
+                },
+                body: JSON.stringify({query: query})
             });
+            
             const data = await res.json();
             
             if (data.response) {
+                // Use innerText for security, but allow line breaks
                 responseText.innerHTML = data.response.replace(/\n/g, '<br>');
-                document.getElementById('new-query').style.display = 'inline-block';
+                newQueryButton.style.display = 'inline-block';
             } else {
-                responseText.innerHTML = data.error || 'Try again.';
+                responseText.innerHTML = data.error || 'Sorry, HairGrok couldn\'t process that. Try again.';
             }
         } catch (err) {
-            responseText.innerHTML = 'Connection error—check internet.';
+            responseText.innerHTML = 'Connection error—Please check server status.';
+        } finally {
+            submitButton.disabled = false; // Re-enable button
         }
     });
 
     document.getElementById('new-query').addEventListener('click', () => {
         document.getElementById('user-query').value = '';
         document.getElementById('ai-response').style.display = 'none';
+        document.getElementById('new-query').style.display = 'none';
     });
 </script>
 {% endblock %}

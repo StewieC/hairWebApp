@@ -9,7 +9,7 @@
 
     <form method="GET" class="search-bar">
         <input type="text" name="location" placeholder="Enter city e.g. Nairobi, Kisumu..." 
-               value="{{ current_location }}">
+                value="{{ current_location }}">
         <button type="submit">Search</button>
     </form>
 
@@ -27,7 +27,7 @@
                 <p>Services: {{ stylist.services }}</p>
                 <p>Price: {{ stylist.price_range|default:"Varies" }}</p>
                 <p>Rating: {{ stylist.rating }} ★</p>
-                <a href="{% url 'book_stylist' stylist.id %}" class="btn-primary">Book Now</a>
+                <a href="{% url 'book_stylist' stylist.id %}" class="btn btn-primary">Book Now</a>
             </div>
         </div>
         {% empty %}

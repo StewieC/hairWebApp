@@ -9,6 +9,7 @@ urlpatterns = [
     path('tips/', include('tips.urls')),
     path('shop/', include('shop.urls')),
     path('booking/', include('booking.urls')),  
+    path('ai_chat/',include('ai_chat.urls')),
 ]
 
 # ← ADD THESE TWO LINES AT THE END

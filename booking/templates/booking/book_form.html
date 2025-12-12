@@ -15,11 +15,12 @@
             <input type="text" name="service" placeholder="Service (e.g. Braids, Relaxer)" required>
             <label for="date">Date</label>
             <input id="date" type="date" name="date" title="Select appointment date" placeholder="YYYY-MM-DD" required>
-            <input type="time" name="time" placeholder="Appointment Time" required>
+            <label for="time">Time</label>
+            <input id="time" type="time" name="time" placeholder="Appointment Time" required>
             <textarea name="notes" placeholder="Any special requests? (optional)" rows="4"></textarea>
-            <button type="submit" class="btn-primary">Confirm Booking</button>
+            <button type="submit" class="btn btn-primary">Confirm Booking</button>
         </form>
-        <a href="{% url 'stylist_list %}" class="btn-secondary">← Back to List</a>
+        <a href="{% url 'stylist_list' %}" class="btn-secondary">← Back to List</a>
     </div>
 </div>
 {% endblock %}

@@ -44,50 +44,50 @@ from django.shortcuts import render
 from django.conf import settings
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-import json
 
-@csrf_exempt  
+@csrf_exempt
 def ai_hair_chat(request):
     if request.method == 'POST':
         user_query = request.POST.get('query', '').strip()
+        
         if not user_query:
-            return JsonResponse({'error': 'Please enter a question.'}, status=400)
+            return JsonResponse({'error': 'Please ask a question about hair.'})
 
-        # Custom system prompt to restrict to hair care only
+        # Safety prompt — forces Grok to ONLY answer hair questions
         system_prompt = """
-        You are a hair care expert named 'HairGrok'. You ONLY answer questions about hair care, routines, products, styling, scalp health, and related topics.
-        - Be friendly, professional, and concise (200 words max).
-        - Structure responses: 1. Summary, 2. Key advice, 3. Product suggestions, 4. Warnings.
-        - If the question is NOT about hair (e.g., coding, weather), politely say: "I'm HairGrok, your hair care specialist! Ask me about routines, products, or styling."
-        - Never answer off-topic questions or generate code/math.
+        You are HairGrok, a professional hair care expert.
+        You ONLY answer questions about hair, scalp, routines, products, styling, and hair health.
+        If the user asks anything unrelated (code, math, politics, etc.), reply:
+        "I'm HairGrok — I only help with hair care! Ask me about curls, dryness, products, or routines."
+        Be friendly, concise, and helpful. Use simple language.
         """
 
         try:
             response = requests.post(
-                'https://api.x.ai/v1/chat/completions',  # Grok endpoint
+                'https://api.groq.com/openai/v1/chat/completions',
                 headers={
-                    'Authorization': f'Bearer {settings.GROK_API_KEY}',
+                    'Authorization': f'Bearer {settings.GROQ_API_KEY}',
                     'Content-Type': 'application/json',
                 },
                 json={
-                    'model': 'grok-beta',  # Fast, free-tier model; use 'grok-4' for advanced
+                    'model': 'llama3-8b-8192',  # Super fast & free
                     'messages': [
                         {'role': 'system', 'content': system_prompt},
                         {'role': 'user', 'content': user_query}
                     ],
-                    'max_tokens': 400,
-                    'temperature': 0.7,  # Balanced creativity
+                    'max_tokens': 500,
+                    'temperature': 0.7,
                 },
-                timeout=10
+                timeout=15
             )
 
             if response.status_code == 200:
-                ai_response = response.json()['choices'][0]['message']['content']
-                return JsonResponse({'response': ai_response})
+                ai_reply = response.json()['choices'][0]['message']['content']
+                return JsonResponse({'response': ai_reply})
             else:
-                return JsonResponse({'error': 'API error—try again.'}, status=500)
+                return JsonResponse({'error': f'API Error {response.status_code}. Check your key.'})
 
         except Exception as e:
-            return JsonResponse({'error': f'Connection issue: {str(e)}'}, status=500)
+            return JsonResponse({'error': 'Connection failed. Try again.'})
 
-    return render(request, 'core/ai_chat.html')  # Frontend form page
+    return render(request, 'core/ai_chat.html')

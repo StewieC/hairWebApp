@@ -10,7 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 from decouple import config
-GROK_API_KEY = config('GROK_API_KEY')
+import os
+
+# Groq API Key
+GROK_API_KEY = config('GROK_API_KEY', default='')
 
 from pathlib import Path
 
@@ -44,6 +47,7 @@ INSTALLED_APPS = [
     'shop',
     'booking',
     'accounts',
+    'ai_chat',
 ]
 
 MIDDLEWARE = [
